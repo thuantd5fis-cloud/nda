@@ -24,7 +24,7 @@ import { HeaderFooterModule } from './header-footer/header-footer.module';
 
 // Common modules
 import { PrismaModule } from './common/prisma/prisma.module';
-import { RedisModule } from './common/redis/redis.module';
+
 
 @Module({
   imports: [
@@ -56,7 +56,7 @@ import { RedisModule } from './common/redis/redis.module';
 
     // Common modules
     PrismaModule,
-    RedisModule,
+
 
     // Landing Page API modules (first for Swagger order)
     HomepageModule,

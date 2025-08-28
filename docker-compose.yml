@@ -17,17 +17,6 @@ services:
     networks:
       - cms_network
 
-  # Redis
-  redis:
-    image: redis:7-alpine
-    container_name: cms_redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    networks:
-      - cms_network
-
   # Minio (S3-compatible object storage)
   minio:
     image: minio/minio:latest
@@ -55,15 +44,13 @@ services:
       - NODE_ENV=development
       - PORT=3001
       - DATABASE_URL=postgresql://cms_user:cms_password@postgres:5432/cms_db?schema=public
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+
       - JWT_SECRET=your-super-secret-jwt-key-change-in-production
       - FRONTEND_URL=http://localhost:3000
     ports:
       - "3001:3001"
     depends_on:
       - postgres
-      - redis
       - minio
     volumes:
       - ./apps/api:/app
@@ -94,7 +81,6 @@ services:
 
 volumes:
   postgres_data:
-  redis_data:
   minio_data:
 
 networks:

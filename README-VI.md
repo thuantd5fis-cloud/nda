@@ -37,7 +37,7 @@ Một hệ thống CMS hiện đại, đầy đủ tính năng được xây d�
 ### Backend
 - **NestJS** (TypeScript)
 - **Prisma ORM** + **PostgreSQL**
-- **Redis** (sessions, caching, rate limiting)
+
 - **Swagger** (tài liệu API)
 - **JWT** authentication
 - **Sharp** (tối ưu hình ảnh)
@@ -72,7 +72,7 @@ chmod +x run.sh
 pnpm install
 
 # 2. Khởi động services
-docker-compose up postgres redis -d
+docker-compose up postgres -d
 
 # 3. Setup database
 cp env.example .env  # Cập nhật config của bạn

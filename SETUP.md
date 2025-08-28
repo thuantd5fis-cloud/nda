@@ -78,9 +78,7 @@ Mở file `.env` và cập nhật các thông số:
 # Database - Giữ nguyên nếu dùng Docker
 DATABASE_URL="postgresql://cms_user:cms_password@localhost:5432/cms_db?schema=public"
 
-# Redis - Giữ nguyên nếu dùng Docker  
-REDIS_HOST=localhost
-REDIS_PORT=6379
+
 
 # JWT - QUAN TRỌNG: Thay đổi secret key
 JWT_SECRET=your-super-secret-jwt-key-change-in-production-123456789
@@ -125,8 +123,8 @@ chmod +x run.sh
 
 #### Bước 4.1: Khởi động Database
 ```bash
-# Khởi động PostgreSQL và Redis
-docker-compose up postgres redis -d
+# Khởi động PostgreSQL
+docker-compose up postgres -d
 
 # Kiểm tra services đã chạy
 docker-compose ps
@@ -225,7 +223,7 @@ docker-compose up -d
 
 # Xem logs
 docker-compose logs postgres
-docker-compose logs redis
+docker-compose logs postgres
 ```
 
 #### 3. Database migration lỗi
@@ -305,7 +303,7 @@ pnpm -F api db:studio
 docker-compose up -d
 
 # Chỉ database services
-docker-compose up postgres redis -d
+docker-compose up postgres -d
 
 # Xem logs
 docker-compose logs -f

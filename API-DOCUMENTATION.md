@@ -192,7 +192,7 @@ Tất cả endpoints đều được bảo vệ bằng JWT Authentication (trừ
 - **Pagination** cho tất cả list endpoints
 - **Selective field loading** với Prisma select
 - **Efficient queries** với proper indexing
-- **Caching ready** với Redis support
+- **Production ready** with proper database relations
 
 ## 🚀 Status: PRODUCTION READY
 

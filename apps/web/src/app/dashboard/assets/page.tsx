@@ -62,6 +62,29 @@ const formatFileSize = (bytes: number) => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 };
 
+// Transform files-upload response to assets format
+const transformFileToAsset = (file: any) => {
+  // Generate public URL for the file
+  const baseUrl = process.env.NEXT_PUBLIC_MINIO_URL || 'http://localhost:9000';
+  const publicUrl = file.filePath ? `${baseUrl}${file.filePath}` : null;
+  
+  return {
+    id: file.id,
+    name: file.fileName || file.name,
+    url: publicUrl || file.publicUrl,
+    thumbnailUrl: publicUrl || file.publicUrl,
+    size: file.fileSize || file.size,
+    type: file.fileType || file.type,
+    mimeType: file.mimeType,
+    createdAt: file.createdAt,
+    alt: file.fileName || file.name,
+    downloadCount: 0, // files-upload doesn't track downloads yet
+    usageCount: 0, // files-upload doesn't track usage yet
+    tags: [], // files-upload doesn't have tags yet
+    uploader: file.uploader
+  };
+};
+
 // Asset Grid Item Component
 const AssetGridItem = ({ asset }: { asset: any }) => {
   const { toast } = useConfirm();
@@ -288,7 +311,7 @@ const UploadZone = () => {
   const uploadMutation = useMutation({
     mutationFn: (file: File) => apiClient.uploadFileToStorage(file),
     onSuccess: (result) => {
-      toast.success(`✅ Upload thành công: ${result.fileName}`);
+      toast.success(`✅ Upload thành công: ${result.fileName || result.name || 'file'}`);
       // Refresh files list
       queryClient.invalidateQueries({ queryKey: ['files-upload'] });
       setUploading(false);
@@ -387,16 +410,17 @@ export default function AssetsPage() {
   });
 
   // Extract assets from response (files-upload returns array directly)
-  const assets = Array.isArray(assetsResponse) ? assetsResponse : (assetsResponse?.data || []);
-  const pagination = assetsResponse?.pagination || { total: assets.length };
+  const rawAssets = Array.isArray(assetsResponse) ? assetsResponse : (assetsResponse?.data || []);
+  const pagination = assetsResponse?.pagination || { total: rawAssets.length };
+
+  // Transform files-upload format to assets format
+  const assets = rawAssets.map(transformFileToAsset);
 
   // Filter assets based on search and filters (if not already filtered by API)
   const filteredAssets = assets.filter((asset: any) => {
     const matchesSearch = searchTerm === '' || 
-                         (asset.fileName && asset.fileName.toLowerCase().includes(searchTerm.toLowerCase())) ||
                          (asset.name && asset.name.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesType = typeFilter === 'all' || 
-                       (asset.fileType && asset.fileType.toLowerCase() === typeFilter.toLowerCase()) ||
                        (asset.type && asset.type.toLowerCase() === typeFilter.toLowerCase());
     return matchesSearch && matchesType;
   });

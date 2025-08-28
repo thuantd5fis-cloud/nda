@@ -47,7 +47,7 @@ const expertiseAreas = [
   'Machine Learning', 'AI', 'Data Science', 'Blockchain',
   'Mobile Development', 'React Native', 'Flutter', 'iOS', 'Android',
   'UI/UX Design', 'Product Management', 'System Architecture',
-  'Database', 'PostgreSQL', 'MongoDB', 'Redis'
+  'Database', 'PostgreSQL', 'MongoDB'
 ];
 
 

@@ -24,7 +24,7 @@ pnpm install
 
 REM Start database services
 echo 🗄️ Starting database services...
-docker-compose up postgres redis -d
+docker-compose up postgres -d
 
 REM Wait for services to be ready
 echo ⏳ Waiting for services to be ready...

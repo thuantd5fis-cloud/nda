@@ -22,7 +22,7 @@ pnpm install
 
 # Start database services
 echo "🗄️ Starting database services..."
-docker-compose up postgres redis -d
+docker-compose up postgres -d
 
 # Wait for services to be ready
 echo "⏳ Waiting for services to be ready..."

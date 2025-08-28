@@ -4,16 +4,10 @@ import React from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
-// Icons temporarily replaced with text - TODO: fix icon imports
-const BoldIcon = (props: any) => <span {...props}>B</span>;
-const ItalicIcon = (props: any) => <span {...props}>I</span>;
-const UnderlineIcon = (props: any) => <span {...props}>U</span>;
-const StrikethroughIcon = (props: any) => <span {...props}>S</span>;
-const UndoIcon = (props: any) => <span {...props}>↶</span>;
-const RedoIcon = (props: any) => <span {...props}>↷</span>;
-const ListIcon = (props: any) => <span {...props}>•</span>;
-const OrderedListIcon = (props: any) => <span {...props}>1.</span>;
-const QuoteIcon = (props: any) => <span {...props}>❝</span>;
+import { 
+  BoldIcon, ItalicIcon, UnderlineIcon, StrikethroughIcon,
+  UndoIcon, RedoIcon, ListIcon, OrderedListIcon, QuoteIcon
+} from '@/components/icons';
 
 interface SimpleEditorProps {
   content: string;

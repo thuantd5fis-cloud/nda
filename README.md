@@ -37,7 +37,7 @@ A modern, full-featured CMS built with Next.js 14, NestJS, and Prisma ORM.
 ### Backend
 - **NestJS** (TypeScript)
 - **Prisma ORM** + **PostgreSQL**
-- **Redis** (sessions, caching, rate limiting)
+
 - **Swagger** (API documentation)
 - **JWT** authentication
 - **Sharp** (image optimization)
@@ -85,7 +85,7 @@ cp env.example .env
 
 ### 3. Start with Docker Compose
 ```bash
-# Start all services (PostgreSQL, Redis, API, Web)
+# Start all services (PostgreSQL, API, Web)
 docker-compose up -d
 
 # Wait for services to start, then run migrations and seed
@@ -95,8 +95,8 @@ pnpm -F api db:seed
 
 ### 4. Manual Development Setup (Alternative)
 ```bash
-# Start PostgreSQL and Redis
-docker-compose up postgres redis -d
+# Start PostgreSQL
+docker-compose up postgres -d
 
 # Install dependencies
 pnpm install

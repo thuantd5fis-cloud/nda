@@ -4,7 +4,7 @@ Bạn là **Senior Full-Stack Engineer**. Hãy tạo một **CMS chuẩn product
 - **Frontend**: Next.js 14 (App Router, TypeScript), Shadcn, React Query/TanStack Query, Zustand (state nhẹ), i18n (next-intl), form với `react-hook-form`.
 - **Backend**: NestJS (TypeScript), REST API, class-validator, Swagger.
 - **Auth**: JWT (access/refresh), RBAC theo vai trò.
-- **DB**: PostgreSQL + Prisma ORM. Redis cho session/ratelimit/queue.
+- **DB**: PostgreSQL + Prisma ORM.
 - **Storage**: Local + adapter S3 (tùy biến). Upload qua presigned URL.
 - **Media**: Sharp (image optimize), ffmpeg (nếu cần preview video), PDF/Audio preview.
 - **Logs/Audit**: Bảng audit_trails + middleware ghi lịch sử thay đổi.
@@ -25,7 +25,7 @@ config/ # eslint, tsconfig, types
 5. **Audit log** mọi thao tác CRUD có lưu “ai – khi nào – trước/sau”.
 6. **Migration & Run**
 - `pnpm i`
-- cấu hình `.env` (DB_URL, JWT_SECRET, S3_*, REDIS_URL)
+- cấu hình `.env` (DB_URL, JWT_SECRET, MINIO_*)
 - `pnpm -w run dev` (web + api)
 7. **Testing**: ít nhất 10 test API (posts, auth, assets) + 3 test E2E (login, tạo post, phân quyền).
 ## Schema dữ liệu (Prisma – tóm tắt)
