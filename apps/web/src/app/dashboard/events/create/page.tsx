@@ -9,21 +9,29 @@ import { useConfirm } from '@/hooks/use-confirm';
 interface EventFormData {
   title: string;
   description: string;
+  content: string;
   startDate: string;
   endDate: string;
   location: string;
+  address: string;
   venue: string;
   maxAttendees: number;
+  capacity: number;
   image: string;
   price: number;
+  currency: string;
   isPaid: boolean;
   isPublic: boolean;
+  isOnline: boolean;
+  meetingUrl: string;
   tags: string[];
   organizer: string;
   contactEmail: string;
   contactPhone: string;
   website: string;
   requiresRegistration: boolean;
+  requiresApproval: boolean;
+  allowWaitlist: boolean;
   registrationDeadline: string;
 }
 
@@ -39,21 +47,29 @@ export default function CreateEventPage() {
   const [formData, setFormData] = useState<EventFormData>({
     title: '',
     description: '',
+    content: '',
     startDate: '',
     endDate: '',
     location: '',
+    address: '',
     venue: '',
     maxAttendees: 100,
+    capacity: 100,
     image: '',
     price: 0,
+    currency: 'VND',
     isPaid: false,
     isPublic: true,
+    isOnline: false,
+    meetingUrl: '',
     tags: [],
     organizer: '',
     contactEmail: '',
     contactPhone: '',
     website: '',
     requiresRegistration: true,
+    requiresApproval: false,
+    allowWaitlist: false,
     registrationDeadline: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -288,7 +304,7 @@ export default function CreateEventPage() {
                   Thẻ sự kiện
                 </label>
                 <div className="flex flex-wrap gap-2">
-                  {eventTags.map(tag => (
+                  {eventTags.map((tag: string) => (
                     <button
                       key={tag}
                       type="button"
@@ -544,7 +560,7 @@ export default function CreateEventPage() {
               </div>
               {formData.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1">
-                  {formData.tags.slice(0, 3).map(tag => (
+                  {formData.tags.slice(0, 3).map((tag: string) => (
                     <span key={tag} className="inline-flex px-2 py-1 bg-gray-100 text-gray-800 rounded text-xs">
                       {tag}
                     </span>

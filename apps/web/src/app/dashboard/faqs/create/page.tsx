@@ -114,7 +114,7 @@ export default function CreateFAQPage() {
         answer: formData.answer,
         category: formData.category,
         tags: formData.tags,
-        priority: parseInt(formData.priority) || 1,
+        priority: formData.priority || 1,
         isPublished: formData.isPublished,
         language: 'vi',
         helpfulCount: 0,
@@ -329,7 +329,7 @@ export default function CreateFAQPage() {
                   Thẻ phân loại
                 </label>
                 <div className="flex flex-wrap gap-2 mb-3">
-                  {commonTags.map(tag => (
+                  {commonTags.map((tag: string) => (
                     <button
                       key={tag}
                       type="button"

@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { Button, Input } from '@cms/ui';
 import { apiClient } from '@/lib/api';
+import { useConfirm } from '@/hooks/use-confirm';
 
 interface UserFormData {
   id: string;
@@ -67,6 +68,7 @@ const getMockUser = (id: string): UserFormData => ({
 export default function EditUserPage() {
   const router = useRouter();
   const params = useParams();
+  const { confirmWarning, toast } = useConfirm();
   const [formData, setFormData] = useState<UserFormData | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeTab, setActiveTab] = useState('basic');
@@ -87,7 +89,7 @@ export default function EditUserPage() {
         fullName: user.fullName,
         phone: user.phone || '',
         avatar: user.avatar || '',
-        roles: user.userRoles.map(ur => ur.role.name),
+        roles: user.userRoles?.map(ur => ur.role.name) || [],
         isActive: user.status === 'ACTIVE',
         bio: user.bio || '',
         position: user.position || '',

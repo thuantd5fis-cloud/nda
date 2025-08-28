@@ -65,10 +65,14 @@ export default function EditMemberPage() {
   const { data: member, isLoading, error } = useQuery({
     queryKey: ['member', params.id],
     queryFn: () => apiClient.getMember(params.id as string),
-    onSuccess: (data) => {
-      setFormData(data);
-    },
   });
+
+  // Handle successful data loading
+  useEffect(() => {
+    if (member) {
+      setFormData(member);
+    }
+  }, [member]);
 
   const handleInputChange = (field: keyof MemberFormData, value: any) => {
     if (!formData) return;
@@ -646,7 +650,7 @@ export default function EditMemberPage() {
                 </p>
                 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                  {expertiseAreas.map(skill => (
+                  {expertiseAreas.map((skill: string) => (
                     <button
                       key={skill}
                       type="button"
@@ -668,7 +672,7 @@ export default function EditMemberPage() {
                       Đã chọn ({formData.expertise.length} lĩnh vực):
                     </h4>
                     <div className="flex flex-wrap gap-2">
-                      {formData.expertise.map(skill => (
+                      {formData.expertise.map((skill: string) => (
                         <span key={skill} className="inline-flex px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
                           {skill}
                         </span>

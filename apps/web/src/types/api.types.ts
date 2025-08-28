@@ -56,9 +56,26 @@ export interface User {
   loginCount?: number;
   passwordChangedAt?: string;
   mustChangePassword?: boolean;
+  // Profile fields
+  position?: string;
+  organization?: string;
+  bio?: string;
+  website?: string;
+  linkedin?: string;
+  twitter?: string;
+  github?: string;
+  // Security fields
+  twoFactorEnabled?: boolean;
+  emailNotifications?: boolean;
+  pushNotifications?: boolean;
+  // Timestamps
   createdAt: string;
   updatedAt: string;
+  // Relations
   userRoles?: UserRole[];
+  posts?: Post[];
+  sessions?: UserSession[];
+  loginHistory?: LoginHistory[];
   _count?: {
     posts: number;
     sessions: number;
@@ -78,6 +95,34 @@ export interface Role {
   description?: string;
 }
 
+export interface UserSession {
+  id: string;
+  device: string;
+  browser: string;
+  location?: string;
+  lastActive: string;
+  current: boolean;
+}
+
+export interface LoginHistory {
+  id: string;
+  timestamp: string;
+  ipAddress: string;
+  userAgent: string;
+  location?: string;
+  success: boolean;
+}
+
+// Extended User interface with computed properties for components
+export interface UserWithRoles extends User {
+  roles: string[];
+}
+
+// Helper function to compute roles from userRoles
+export function getUserRoles(user: User): string[] {
+  return user.userRoles?.map(ur => ur.role.name) || [];
+}
+
 export interface CreateUserRequest {
   email: string;
   fullName: string;
@@ -91,12 +136,25 @@ export interface CreateUserRequest {
 }
 
 export interface UpdateUserRequest {
+  email?: string;
   fullName?: string;
   phone?: string;
   avatar?: string;
   status?: 'ACTIVE' | 'INACTIVE' | 'SUSPENDED';
   emailVerified?: boolean;
   mustChangePassword?: boolean;
+  // Profile fields
+  position?: string;
+  organization?: string;
+  bio?: string;
+  website?: string;
+  linkedin?: string;
+  twitter?: string;
+  github?: string;
+  // Security fields
+  twoFactorEnabled?: boolean;
+  emailNotifications?: boolean;
+  pushNotifications?: boolean;
 }
 
 export interface UsersQueryParams extends PaginationParams {

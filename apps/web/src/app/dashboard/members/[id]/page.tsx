@@ -328,7 +328,7 @@ export default function MemberDetailPage() {
               <div>
                 <div className="text-sm text-gray-500 mb-2">Lĩnh vực chuyên môn</div>
                 <div className="flex flex-wrap gap-2">
-                  {member.expertise.map(skill => (
+                  {member.expertise.map((skill: string) => (
                     <span key={skill} className="inline-flex px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
                       {skill}
                     </span>

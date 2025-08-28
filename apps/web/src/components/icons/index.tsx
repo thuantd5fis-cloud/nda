@@ -679,3 +679,9 @@ export const TreeIcon = ({ className = "w-5 h-5", size }: IconProps) => (
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21L6 15l2.77-1.613a1 1 0 00.502-1.21L7.78 7.684A1 1 0 007.28 7H7a2 2 0 012 2v6m0 0v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m2 0h2m0 0h8a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" />
   </svg>
 );
+
+export const UnderlineIcon = ({ className = "w-5 h-5", size }: IconProps) => (
+  <svg className={className} width={size} height={size} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 19h12M8 5v8a4 4 0 004 4 4 4 0 004-4V5" />
+  </svg>
+);

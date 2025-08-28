@@ -558,7 +558,7 @@ export default function CreateMemberPage() {
                 </p>
                 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                  {expertiseAreas.map(skill => (
+                  {expertiseAreas.map((skill: string) => (
                     <button
                       key={skill}
                       type="button"
@@ -580,7 +580,7 @@ export default function CreateMemberPage() {
                       Đã chọn ({formData.expertise.length} lĩnh vực):
                     </h4>
                     <div className="flex flex-wrap gap-2">
-                      {formData.expertise.map(skill => (
+                      {formData.expertise.map((skill: string) => (
                         <span key={skill} className="inline-flex px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
                           {skill}
                         </span>

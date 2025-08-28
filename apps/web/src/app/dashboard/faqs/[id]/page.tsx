@@ -324,7 +324,7 @@ export default function FAQDetailPage() {
 
           {/* Tags */}
           <div className="flex flex-wrap gap-2">
-            {faq.tags.map(tag => (
+            {faq.tags.map((tag: string) => (
               <span key={tag} className="inline-flex px-2 py-1 bg-gray-100 text-gray-700 rounded text-sm">
                 🏷️ {tag}
               </span>
