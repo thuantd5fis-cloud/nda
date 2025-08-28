@@ -1,0 +1,44 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "success": "Success",
+    "confirm": "Are you sure?",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "posts": "Posts",
+    "categories": "Categories", 
+    "tags": "Tags",
+    "assets": "Assets",
+    "users": "Users",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "auth": {
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Sign In",
+    "loginError": "Invalid email or password"
+  },
+  "posts": {
+    "title": "Posts",
+    "createPost": "Create Post",
+    "editPost": "Edit Post",
+    "postTitle": "Post Title",
+    "content": "Content",
+    "status": "Status",
+    "draft": "Draft",
+    "published": "Published",
+    "archived": "Archived"
+  }
+}

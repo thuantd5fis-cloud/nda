@@ -1,0 +1,1113 @@
+{
+  "info": {
+    "name": "CMS API Collection",
+    "description": "Complete API collection for CMS system with all endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "🔐 Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.collectionVariables.set('access_token', responseJson.access_token);",
+                  "    console.log('Token saved:', responseJson.access_token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "👤 Users API",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users?page=1&limit=10&search=&role=&status=&location=",
+              "host": ["{{base_url}}"],
+              "path": ["users"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "10"},
+                {"key": "search", "value": ""},
+                {"key": "role", "value": ""},
+                {"key": "status", "value": ""},
+                {"key": "location", "value": ""}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/:id",
+              "host": ["{{base_url}}"],
+              "path": ["users", ":id"],
+              "variable": [
+                {"key": "id", "value": "user_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newuser@example.com\",\n  \"fullName\": \"New User\",\n  \"password\": \"Password@123\",\n  \"phone\": \"+84123456789\",\n  \"bio\": \"New user bio\",\n  \"position\": \"Developer\",\n  \"organization\": \"Tech Company\",\n  \"location\": \"Ho Chi Minh City\",\n  \"website\": \"https://example.com\",\n  \"linkedin\": \"https://linkedin.com/in/newuser\",\n  \"status\": \"ACTIVE\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": ["{{base_url}}"],
+              "path": ["users"]
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Updated User Name\",\n  \"bio\": \"Updated bio\",\n  \"position\": \"Senior Developer\",\n  \"location\": \"Hanoi\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/:id",
+              "host": ["{{base_url}}"],
+              "path": ["users", ":id"],
+              "variable": [
+                {"key": "id", "value": "user_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/:id",
+              "host": ["{{base_url}}"],
+              "path": ["users", ":id"],
+              "variable": [
+                {"key": "id", "value": "user_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reset User Password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/:id/reset-password",
+              "host": ["{{base_url}}"],
+              "path": ["users", ":id", "reset-password"],
+              "variable": [
+                {"key": "id", "value": "user_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Users Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/stats",
+              "host": ["{{base_url}}"],
+              "path": ["users", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📝 Posts API",
+      "item": [
+        {
+          "name": "Get All Posts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/posts?page=1&limit=10&search=&categoryId=&tagId=&authorId=&status=&featured=",
+              "host": ["{{base_url}}"],
+              "path": ["posts"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "10"},
+                {"key": "search", "value": ""},
+                {"key": "categoryId", "value": ""},
+                {"key": "tagId", "value": ""},
+                {"key": "authorId", "value": ""},
+                {"key": "status", "value": ""},
+                {"key": "featured", "value": ""}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Post by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/posts/:id",
+              "host": ["{{base_url}}"],
+              "path": ["posts", ":id"],
+              "variable": [
+                {"key": "id", "value": "post_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"New Blog Post\",\n  \"slug\": \"new-blog-post\",\n  \"excerpt\": \"This is a sample excerpt\",\n  \"content\": \"<p>This is the full content of the blog post</p>\",\n  \"status\": \"DRAFT\",\n  \"featured\": false,\n  \"metaTitle\": \"SEO Title\",\n  \"metaDescription\": \"SEO Description\",\n  \"categoryIds\": [],\n  \"tagIds\": []\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/posts",
+              "host": ["{{base_url}}"],
+              "path": ["posts"]
+            }
+          }
+        },
+        {
+          "name": "Update Post",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Post Title\",\n  \"content\": \"<p>Updated content</p>\",\n  \"status\": \"PUBLISHED\",\n  \"featured\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/posts/:id",
+              "host": ["{{base_url}}"],
+              "path": ["posts", ":id"],
+              "variable": [
+                {"key": "id", "value": "post_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Post",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/posts/:id",
+              "host": ["{{base_url}}"],
+              "path": ["posts", ":id"],
+              "variable": [
+                {"key": "id", "value": "post_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Post Analytics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/posts/:id/analytics",
+              "host": ["{{base_url}}"],
+              "path": ["posts", ":id", "analytics"],
+              "variable": [
+                {"key": "id", "value": "post_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Posts Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/posts/stats",
+              "host": ["{{base_url}}"],
+              "path": ["posts", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏷️ Tags API",
+      "item": [
+        {
+          "name": "Get All Tags",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tags?page=1&limit=10&search=&isActive=",
+              "host": ["{{base_url}}"],
+              "path": ["tags"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "10"},
+                {"key": "search", "value": ""},
+                {"key": "isActive", "value": ""}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Tag by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tags/:id",
+              "host": ["{{base_url}}"],
+              "path": ["tags", ":id"],
+              "variable": [
+                {"key": "id", "value": "tag_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Tag",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Tag\",\n  \"slug\": \"new-tag\",\n  \"description\": \"Tag description\",\n  \"color\": \"#3B82F6\",\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tags",
+              "host": ["{{base_url}}"],
+              "path": ["tags"]
+            }
+          }
+        },
+        {
+          "name": "Update Tag",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Tag\",\n  \"description\": \"Updated description\",\n  \"color\": \"#EF4444\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tags/:id",
+              "host": ["{{base_url}}"],
+              "path": ["tags", ":id"],
+              "variable": [
+                {"key": "id", "value": "tag_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Tag",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tags/:id",
+              "host": ["{{base_url}}"],
+              "path": ["tags", ":id"],
+              "variable": [
+                {"key": "id", "value": "tag_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Tags Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/tags/stats",
+              "host": ["{{base_url}}"],
+              "path": ["tags", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📁 Categories API",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories",
+              "host": ["{{base_url}}"],
+              "path": ["categories"]
+            }
+          }
+        },
+        {
+          "name": "Get Category by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories/:id",
+              "host": ["{{base_url}}"],
+              "path": ["categories", ":id"],
+              "variable": [
+                {"key": "id", "value": "category_id_here"}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🖼️ Assets API",
+      "item": [
+        {
+          "name": "Get All Assets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/assets?page=1&limit=10&search=&type=&tags=",
+              "host": ["{{base_url}}"],
+              "path": ["assets"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "10"},
+                {"key": "search", "value": ""},
+                {"key": "type", "value": ""},
+                {"key": "tags", "value": ""}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Asset by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/assets/:id",
+              "host": ["{{base_url}}"],
+              "path": ["assets", ":id"],
+              "variable": [
+                {"key": "id", "value": "asset_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Asset",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sample Image\",\n  \"originalName\": \"sample.jpg\",\n  \"type\": \"IMAGE\",\n  \"mimeType\": \"image/jpeg\",\n  \"filename\": \"sample_123.jpg\",\n  \"path\": \"/uploads/images/sample_123.jpg\",\n  \"url\": \"http://localhost:3001/uploads/images/sample_123.jpg\",\n  \"alt\": \"Sample image alt text\",\n  \"caption\": \"Sample image caption\",\n  \"description\": \"Sample image description\",\n  \"size\": 1024000\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/assets",
+              "host": ["{{base_url}}"],
+              "path": ["assets"]
+            }
+          }
+        },
+        {
+          "name": "Update Asset",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Asset Name\",\n  \"alt\": \"Updated alt text\",\n  \"caption\": \"Updated caption\",\n  \"description\": \"Updated description\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/assets/:id",
+              "host": ["{{base_url}}"],
+              "path": ["assets", ":id"],
+              "variable": [
+                {"key": "id", "value": "asset_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Asset",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/assets/:id",
+              "host": ["{{base_url}}"],
+              "path": ["assets", ":id"],
+              "variable": [
+                {"key": "id", "value": "asset_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Track Asset Usage",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"entityType\": \"POST\",\n  \"entityId\": \"post_id_here\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/assets/:id/track-usage",
+              "host": ["{{base_url}}"],
+              "path": ["assets", ":id", "track-usage"],
+              "variable": [
+                {"key": "id", "value": "asset_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Download Asset",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/assets/:id/download",
+              "host": ["{{base_url}}"],
+              "path": ["assets", ":id", "download"],
+              "variable": [
+                {"key": "id", "value": "asset_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Assets Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/assets/stats",
+              "host": ["{{base_url}}"],
+              "path": ["assets", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📅 Events API",
+      "item": [
+        {
+          "name": "Get All Events",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/events?page=1&limit=10&search=&status=&tags=&location=&upcoming=",
+              "host": ["{{base_url}}"],
+              "path": ["events"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "10"},
+                {"key": "search", "value": ""},
+                {"key": "status", "value": ""},
+                {"key": "tags", "value": ""},
+                {"key": "location", "value": ""},
+                {"key": "upcoming", "value": ""}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Event by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/events/:id",
+              "host": ["{{base_url}}"],
+              "path": ["events", ":id"],
+              "variable": [
+                {"key": "id", "value": "event_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Tech Conference 2024\",\n  \"description\": \"Annual technology conference\",\n  \"startDate\": \"2024-12-01T09:00:00Z\",\n  \"endDate\": \"2024-12-01T17:00:00Z\",\n  \"venue\": \"Convention Center\",\n  \"maxAttendees\": 500,\n  \"price\": 150000,\n  \"isPaid\": true,\n  \"isPublic\": true,\n  \"tags\": [\"technology\", \"conference\"],\n  \"contactEmail\": \"event@example.com\",\n  \"contactPhone\": \"+84123456789\",\n  \"requiresRegistration\": true,\n  \"registrationDeadline\": \"2024-11-25T23:59:59Z\",\n  \"status\": \"UPCOMING\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/events",
+              "host": ["{{base_url}}"],
+              "path": ["events"]
+            }
+          }
+        },
+        {
+          "name": "Update Event",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Event Title\",\n  \"description\": \"Updated description\",\n  \"maxAttendees\": 600,\n  \"price\": 200000\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/events/:id",
+              "host": ["{{base_url}}"],
+              "path": ["events", ":id"],
+              "variable": [
+                {"key": "id", "value": "event_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Event",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/events/:id",
+              "host": ["{{base_url}}"],
+              "path": ["events", ":id"],
+              "variable": [
+                {"key": "id", "value": "event_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Register for Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+84987654321\",\n  \"company\": \"Tech Corp\",\n  \"position\": \"Developer\",\n  \"notes\": \"Looking forward to the event\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/events/:id/register",
+              "host": ["{{base_url}}"],
+              "path": ["events", ":id", "register"],
+              "variable": [
+                {"key": "id", "value": "event_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Unregister from Event",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/events/:id/register",
+              "host": ["{{base_url}}"],
+              "path": ["events", ":id", "register"],
+              "variable": [
+                {"key": "id", "value": "event_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Event Registrations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/events/:id/registrations",
+              "host": ["{{base_url}}"],
+              "path": ["events", ":id", "registrations"],
+              "variable": [
+                {"key": "id", "value": "event_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Events Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/events/stats",
+              "host": ["{{base_url}}"],
+              "path": ["events", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "👥 Members API",
+      "item": [
+        {
+          "name": "Get All Members",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/members?page=1&limit=10&search=&expertise=&isExpert=&isActive=&location=",
+              "host": ["{{base_url}}"],
+              "path": ["members"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "10"},
+                {"key": "search", "value": ""},
+                {"key": "expertise", "value": ""},
+                {"key": "isExpert", "value": ""},
+                {"key": "isActive", "value": ""},
+                {"key": "location", "value": ""}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Member by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/members/:id",
+              "host": ["{{base_url}}"],
+              "path": ["members", ":id"],
+              "variable": [
+                {"key": "id", "value": "member_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Member",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Jane Expert\",\n  \"email\": \"jane@example.com\",\n  \"phone\": \"+84123456789\",\n  \"title\": \"Senior Developer\",\n  \"bio\": \"Experienced developer with 10+ years\",\n  \"expertise\": [\"React\", \"Node.js\", \"TypeScript\"],\n  \"company\": \"Tech Solutions\",\n  \"position\": \"CTO\",\n  \"experience\": 10,\n  \"website\": \"https://jane-expert.com\",\n  \"linkedin\": \"https://linkedin.com/in/jane-expert\",\n  \"location\": \"Ho Chi Minh City\",\n  \"isExpert\": true,\n  \"isActive\": true,\n  \"joinDate\": \"2024-01-15T00:00:00Z\",\n  \"certifications\": [\"AWS Certified\", \"Google Cloud Professional\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/members",
+              "host": ["{{base_url}}"],
+              "path": ["members"]
+            }
+          }
+        },
+        {
+          "name": "Update Member",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Principal Developer\",\n  \"bio\": \"Updated bio\",\n  \"experience\": 12,\n  \"expertise\": [\"React\", \"Node.js\", \"TypeScript\", \"Python\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/members/:id",
+              "host": ["{{base_url}}"],
+              "path": ["members", ":id"],
+              "variable": [
+                {"key": "id", "value": "member_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Member",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/members/:id",
+              "host": ["{{base_url}}"],
+              "path": ["members", ":id"],
+              "variable": [
+                {"key": "id", "value": "member_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Mentoring Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"menteeName\": \"Student Name\",\n  \"menteeEmail\": \"student@example.com\",\n  \"topic\": \"React Best Practices\",\n  \"date\": \"2024-12-15T14:00:00Z\",\n  \"duration\": 60,\n  \"notes\": \"Focus on component architecture\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/members/:id/mentoring",
+              "host": ["{{base_url}}"],
+              "path": ["members", ":id", "mentoring"],
+              "variable": [
+                {"key": "id", "value": "member_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Member Mentoring History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/members/:id/mentoring",
+              "host": ["{{base_url}}"],
+              "path": ["members", ":id", "mentoring"],
+              "variable": [
+                {"key": "id", "value": "member_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Members Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/members/stats",
+              "host": ["{{base_url}}"],
+              "path": ["members", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "❓ FAQs API",
+      "item": [
+        {
+          "name": "Get All FAQs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/faqs?page=1&limit=10&search=&category=&priority=&tags=&isPublished=",
+              "host": ["{{base_url}}"],
+              "path": ["faqs"],
+              "query": [
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "10"},
+                {"key": "search", "value": ""},
+                {"key": "category", "value": ""},
+                {"key": "priority", "value": ""},
+                {"key": "tags", "value": ""},
+                {"key": "isPublished", "value": ""}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search FAQs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/faqs/search?q=search_term&category=&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["faqs", "search"],
+              "query": [
+                {"key": "q", "value": "search_term"},
+                {"key": "category", "value": ""},
+                {"key": "limit", "value": "10"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get FAQ by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/faqs/:id",
+              "host": ["{{base_url}}"],
+              "path": ["faqs", ":id"],
+              "variable": [
+                {"key": "id", "value": "faq_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create FAQ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"How to get started with React?\",\n  \"answer\": \"<p>React is a JavaScript library for building user interfaces...</p>\",\n  \"category\": \"Development\",\n  \"tags\": [\"react\", \"javascript\", \"frontend\"],\n  \"isPublished\": true,\n  \"priority\": \"HIGH\",\n  \"searchKeywords\": [\"react\", \"tutorial\", \"beginner\", \"setup\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/faqs",
+              "host": ["{{base_url}}"],
+              "path": ["faqs"]
+            }
+          }
+        },
+        {
+          "name": "Update FAQ",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"Updated question?\",\n  \"answer\": \"<p>Updated answer content...</p>\",\n  \"priority\": \"MEDIUM\",\n  \"tags\": [\"react\", \"javascript\", \"frontend\", \"updated\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/faqs/:id",
+              "host": ["{{base_url}}"],
+              "path": ["faqs", ":id"],
+              "variable": [
+                {"key": "id", "value": "faq_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete FAQ",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/faqs/:id",
+              "host": ["{{base_url}}"],
+              "path": ["faqs", ":id"],
+              "variable": [
+                {"key": "id", "value": "faq_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create FAQ Feedback",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"HELPFUL\",\n  \"comment\": \"This FAQ was very helpful!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/faqs/:id/feedback",
+              "host": ["{{base_url}}"],
+              "path": ["faqs", ":id", "feedback"],
+              "variable": [
+                {"key": "id", "value": "faq_id_here"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reorder FAQs",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"faqIds\": [\"faq_id_1\", \"faq_id_2\", \"faq_id_3\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/faqs/reorder",
+              "host": ["{{base_url}}"],
+              "path": ["faqs", "reorder"]
+            }
+          }
+        },
+        {
+          "name": "Get FAQs Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/faqs/stats",
+              "host": ["{{base_url}}"],
+              "path": ["faqs", "stats"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

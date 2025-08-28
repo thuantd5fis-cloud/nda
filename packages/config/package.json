@@ -1,0 +1,16 @@
+{
+  "name": "@cms/config",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./index.js",
+  "types": "./index.ts",
+  "exports": {
+    "./eslint": "./eslint.js",
+    "./typescript": "./typescript.json",
+    "./tailwind": "./tailwind.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "typescript": "^5.3.3"
+  }
+}

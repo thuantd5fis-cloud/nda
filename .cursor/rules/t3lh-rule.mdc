@@ -1,0 +1,35 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+
+## 1. Function
+- Không viết function quá dài (>30 dòng).
+- Mỗi function chỉ làm **1 việc duy nhất**.
+- Đặt tên rõ nghĩa, không viết tắt.
+  - ✅ `getUserProfile()`
+  - ❌ `getData()`
+- Tránh nhiều tham số (>3). Nếu cần, dùng object.
+
+## 2. Code Style
+- Dùng `const` thay vì `let` nếu giá trị không thay đổi.
+- Tránh dùng `any` trong TypeScript, thay bằng type cụ thể hoặc `unknown`.
+- Tránh "magic numbers/strings". Đưa vào `const` hoặc `enum`.
+
+## 3. JSX/TSX
+- Tên component viết theo PascalCase.
+- Props phải có type/interface rõ ràng.
+- JSX nên gọn gàng, tránh lồng quá sâu (max 3 cấp).
+
+## 4. Max Line Length
+- Mỗi dòng code không dài quá **100 ký tự**.
+- Nếu quá dài, xuống dòng cho dễ đọc.
+- Max line của mỗi file không quá 500 dòng
+## 5. Khác
+- Viết comment ngắn gọn, chỉ khi cần giải thích *tại sao*, không phải *cái gì*.
+- Tránh `console.log` trong production code.
+- Format code tự động bằng Prettier trước khi commit.
+## 6. RUN
+Source sử dụng pnpm
+---
