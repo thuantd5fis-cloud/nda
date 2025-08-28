@@ -91,6 +91,8 @@ export default function EditUserPage() {
         avatar: user.avatar || '',
         roles: user.userRoles?.map(ur => ur.role.name) || [],
         isActive: user.status === 'ACTIVE',
+        emailVerified: user.emailVerified || false,
+        twoFactorEnabled: user.twoFactorEnabled || false,
         bio: user.bio || '',
         position: user.position || '',
         organization: user.organization || '',
@@ -98,6 +100,11 @@ export default function EditUserPage() {
         linkedin: user.linkedin || '',
         twitter: user.twitter || '',
         github: user.github || '',
+        lastLogin: user.lastLoginAt || '',
+        loginCount: user.loginCount || 0,
+        postsCount: user._count?.posts || 0,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
       });
     }
   }, [user]);
@@ -141,7 +148,7 @@ export default function EditUserPage() {
       console.log('Updating user:', userData);
       
       // Real API call
-      const updatedUser = await apiClient.updateUser(user.id, {
+      const updatedUser = await apiClient.updateUser(user!.id, {
         email: formData.email,
         fullName: formData.fullName,
         phone: formData.phone,
@@ -182,7 +189,7 @@ export default function EditUserPage() {
     
     try {
       // Real API call
-      await apiClient.deleteUser(user.id);
+      await apiClient.deleteUser(user!.id);
       console.log('✅ User deleted successfully');
       alert('Người dùng đã được xóa thành công!');
       router.push('/dashboard/users');
@@ -207,7 +214,7 @@ export default function EditUserPage() {
     if (confirmed) {
       try {
         // Real API call
-        await apiClient.resetUserPassword(user.id);
+        await apiClient.resetUserPassword(user!.id);
         console.log('✅ Password reset successfully');
         toast.success('Mật khẩu mới đã được gửi qua email!');
       } catch (error) {

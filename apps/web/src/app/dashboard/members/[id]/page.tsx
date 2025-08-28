@@ -95,10 +95,12 @@ export default function MemberDetailPage() {
       return;
     }
 
-    const confirmed = await confirmDelete({
-      title: 'Xác nhận xóa thành viên',
-      message: `Bạn có chắc chắn muốn xóa thành viên "${member.fullName}"? Hành động này không thể hoàn tác.`,
-    });
+    const confirmed = await confirmDelete(
+      `Bạn có chắc chắn muốn xóa thành viên "${member.fullName}"? Hành động này không thể hoàn tác.`,
+      {
+        title: 'Xác nhận xóa thành viên'
+      }
+    );
 
     if (!confirmed) return;
 
@@ -482,7 +484,7 @@ export default function MemberDetailPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {member.articles.map((article) => (
+                {member.articles?.map((article: any) => (
                   <tr key={article.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">{article.title}</div>
@@ -560,7 +562,7 @@ export default function MemberDetailPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {member.mentoringHistory.map((session) => (
+                {member.mentoringHistory?.map((session: any) => (
                   <tr key={session.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
@@ -611,7 +613,7 @@ export default function MemberDetailPage() {
             </h3>
             {(member.certifications && member.certifications.length > 0) ? (
               <div className="space-y-3">
-                {member.certifications.map((cert, index) => (
+                {member.certifications?.map((cert: string, index: number) => (
                   <div key={index} className="flex items-center p-3 bg-gray-50 rounded-lg">
                     <div className="text-yellow-600 mr-3">
                       <AwardIcon className="w-6 h-6" />
@@ -638,7 +640,7 @@ export default function MemberDetailPage() {
               Kỹ năng chuyên môn ({member.expertise.length})
             </h3>
             <div className="grid grid-cols-2 gap-3">
-              {member.expertise.map(skill => (
+              {member.expertise?.map((skill: string) => (
                 <div key={skill} className="flex items-center p-3 bg-blue-50 rounded-lg">
                   <div className="text-blue-600 mr-2">⚡</div>
                   <span className="text-sm font-medium text-blue-900">{skill}</span>

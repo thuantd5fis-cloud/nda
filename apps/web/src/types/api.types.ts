@@ -83,7 +83,7 @@ export interface User {
 }
 
 export interface UserRole {
-  id: string;
+  id?: string;
   userId: string;
   roleId: string;
   role: Role;
@@ -192,6 +192,11 @@ export interface Post {
   author: User;
   categories?: Category[];
   tags?: Tag[];
+  _count?: {
+    analyticsViews: number;
+    comments: number;
+    likes: number;
+  };
 }
 
 export interface CreatePostRequest {

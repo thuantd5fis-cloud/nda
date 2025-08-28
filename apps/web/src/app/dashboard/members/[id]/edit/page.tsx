@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button, Input } from '@cms/ui';
@@ -168,10 +168,12 @@ export default function EditMemberPage() {
       return;
     }
 
-    const confirmed = await confirmDelete({
-      title: 'Xác nhận xóa thành viên',
-      message: `Bạn có chắc chắn muốn xóa thành viên "${formData.fullName}"? Hành động này không thể hoàn tác.`,
-    });
+    const confirmed = await confirmDelete(
+      `Bạn có chắc chắn muốn xóa thành viên "${formData.fullName}"? Hành động này không thể hoàn tác.`,
+      {
+        title: 'Xác nhận xóa thành viên'
+      }
+    );
 
     if (!confirmed) return;
 

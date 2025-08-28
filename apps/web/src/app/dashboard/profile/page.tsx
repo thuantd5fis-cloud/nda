@@ -374,7 +374,11 @@ export default function ProfilePage() {
                 <h3 className="text-lg font-semibold text-gray-900">{profile?.fullName || 'User'}</h3>
                 <p className="text-gray-600">{profile?.email || 'No email'}</p>
                 <div className="flex flex-wrap justify-center gap-1 mt-2">
-                  {(profile?.roles || mockProfile.roles).map((role: string) => (
+                  {(
+                    (profile as any)?.userRoles?.map((ur: any) => ur.role.name) || 
+                    (profile as any)?.roles || 
+                    mockProfile.roles
+                  ).map((role: string) => (
                     <span key={role} className="inline-flex px-2 py-1 bg-primary/10 text-primary rounded text-xs font-medium">
                       {role}
                     </span>

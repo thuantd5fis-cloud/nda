@@ -8,6 +8,7 @@ import { Button } from '@cms/ui';
 import { ArrowLeftIcon, PauseIcon, PlayIcon, EditIcon, TrashIcon, LoadingIcon, ErrorIcon } from '@/components/icons';
 import { apiClient } from '@/lib/api';
 import { useConfirm } from '@/hooks/use-confirm';
+import { UserRole } from '@/types/api.types';
 
 interface User {
   id: string;
@@ -63,8 +64,11 @@ const getMockUser = (id: string): User => ({
   fullName: 'Nguyễn Văn A',
   phone: '0901234567',
   avatar: '/images/users/user-1.jpg',
-  roles: ['editor', 'author'],
-  isActive: true,
+  userRoles: [
+    { id: '1', userId: id, roleId: 'editor-id', role: { id: 'editor-id', name: 'editor', description: 'Editor' } },
+    { id: '2', userId: id, roleId: 'author-id', role: { id: 'author-id', name: 'author', description: 'Author' } }
+  ] as any[],
+  status: 'ACTIVE',
   emailVerified: true,
   twoFactorEnabled: false,
   bio: 'Là một developer với 5 năm kinh nghiệm trong phát triển web và mobile apps. Đam mê công nghệ mới và luôn sẵn sàng học hỏi. Thích chia sẻ kiến thức và tham gia các dự án mã nguồn mở.',
@@ -74,9 +78,8 @@ const getMockUser = (id: string): User => ({
   linkedin: 'https://linkedin.com/in/nguyenvana',
   twitter: 'https://twitter.com/nguyenvana',
   github: 'https://github.com/nguyenvana',
-  lastLogin: '2024-01-20T15:30:00Z',
+  lastLoginAt: '2024-01-20T15:30:00Z',
   loginCount: 127,
-  postsCount: 23,
   posts: [
     {
       id: '1',
@@ -143,7 +146,8 @@ const getMockUser = (id: string): User => ({
   ],
   createdAt: '2023-06-15T10:30:00Z',
   updatedAt: '2024-01-20T14:45:00Z',
-});
+  _count: { posts: 23, sessions: 5 }
+}) as User;
 
 const getStatusBadge = (status: string) => {
   const statusConfig = {
@@ -379,7 +383,7 @@ export default function UserDetailPage() {
                   )}
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {user.userRoles.map(userRole => (
+                  {user.userRoles?.map(userRole => (
                     <span key={userRole.role.id} className="inline-flex px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">
                       {roleLabels[userRole.role.name] || userRole.role.name}
                     </span>
@@ -458,7 +462,7 @@ export default function UserDetailPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Vai trò</p>
-              <p className="text-3xl font-bold text-green-600">{user.userRoles.length}</p>
+              <p className="text-3xl font-bold text-green-600">{user.userRoles?.length || 0}</p>
             </div>
             <div className="text-2xl">👤</div>
           </div>
@@ -539,7 +543,7 @@ export default function UserDetailPage() {
           <div className="bg-white p-6 rounded-lg border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Vai trò & Quyền hạn</h3>
             <div className="space-y-3">
-              {user.userRoles.map(userRole => {
+              {user.userRoles?.map(userRole => {
                 const role = userRole.role.name;
                 const roleInfo = {
                   super_admin: { label: 'Super Admin', desc: 'Toàn quyền hệ thống', color: 'bg-red-100 text-red-800' },
@@ -604,7 +608,7 @@ export default function UserDetailPage() {
                       {getStatusBadge(post.status)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {post._count.analyticsViews.toLocaleString()}
+                      {(post._count?.analyticsViews || 0).toLocaleString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {new Date(post.createdAt).toLocaleDateString('vi-VN')}
@@ -669,7 +673,7 @@ export default function UserDetailPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {user.loginHistory.map((login) => (
+                {user.loginHistory?.map((login: any) => (
                   <tr key={login.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {new Date(login.timestamp).toLocaleString('vi-VN')}
