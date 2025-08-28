@@ -93,12 +93,23 @@ export const useAuthStore = create<AuthState>()(
       },
 
       checkAuth: async (retryCount = 0) => {
-        console.log(`🔍 [checkAuth] Starting auth check... (attempt ${retryCount + 1})`);
-        const token = localStorage.getItem('access_token');
-        console.log('🔍 [checkAuth] Token found:', !!token);
+        const isDev = process.env.NODE_ENV === 'development';
+        const isClient = typeof window !== 'undefined';
+        
+        if (isDev && isClient) {
+          console.log(`🔍 [checkAuth] Starting auth check... (attempt ${retryCount + 1})`);
+        }
+        
+        const token = isClient ? localStorage.getItem('access_token') : null;
+        
+        if (isDev && isClient) {
+          console.log('🔍 [checkAuth] Token found:', !!token);
+        }
         
         if (!token) {
-          console.log('🔍 [checkAuth] No token found, setting unauthenticated');
+          if (isDev && isClient) {
+            console.log('🔍 [checkAuth] No token found, setting unauthenticated');
+          }
           set({ isAuthenticated: false, user: null, isLoading: false, error: null });
           apiClient.setToken(null);
           return;
@@ -107,18 +118,27 @@ export const useAuthStore = create<AuthState>()(
         // Set token in API client
         apiClient.setToken(token);
         set({ isLoading: true, error: null });
-        console.log('🔍 [checkAuth] Set loading to true, making API call...');
+        
+        if (isDev && isClient) {
+          console.log('🔍 [checkAuth] Set loading to true, making API call...');
+        }
         
         try {
           const userResponse = await apiClient.getProfile();
-          console.log('🔍 [checkAuth] getProfile response:', userResponse);
+          
+          if (isDev && isClient) {
+            console.log('🔍 [checkAuth] getProfile response:', userResponse);
+          }
           
           // Ensure user data includes roles properly formatted (same as login)
           const userData = {
             ...userResponse,
             roles: userResponse.userRoles?.map(ur => ur.role.name) || []
           };
-          console.log('🔍 [checkAuth] processed userData:', userData);
+          
+          if (isDev && isClient) {
+            console.log('🔍 [checkAuth] processed userData:', userData);
+          }
           
           set({
             user: userData,
@@ -126,9 +146,14 @@ export const useAuthStore = create<AuthState>()(
             isLoading: false,
             error: null,
           });
-          console.log('🔍 [checkAuth] ✅ Authentication successful');
+          
+          if (isDev && isClient) {
+            console.log('🔍 [checkAuth] ✅ Authentication successful');
+          }
         } catch (error) {
-          console.error('🔍 [checkAuth] ❌ Auth check failed:', error);
+          if (isDev && isClient) {
+            console.error('🔍 [checkAuth] ❌ Auth check failed:', error);
+          }
           
           // Determine if this is a network error or auth error
           const errorMessage = error instanceof Error ? error.message : 'Authentication check failed';
@@ -139,7 +164,9 @@ export const useAuthStore = create<AuthState>()(
                                   errorMessage.includes('ERR_NETWORK');
           
           if (isNetworkError && retryCount < 2) {
-            console.warn(`🔍 [checkAuth] Network error detected, retrying in 2s... (${retryCount + 1}/3)`);
+            if (isDev && isClient) {
+              console.warn(`🔍 [checkAuth] Network error detected, retrying in 2s... (${retryCount + 1}/3)`);
+            }
             set({
               user: null,
               isAuthenticated: false,
@@ -154,7 +181,9 @@ export const useAuthStore = create<AuthState>()(
           }
           
           if (isNetworkError) {
-            console.error('🔍 [checkAuth] Max retries exceeded, network unavailable');
+            if (isDev && isClient) {
+              console.error('🔍 [checkAuth] Max retries exceeded, network unavailable');
+            }
             set({
               user: null,
               isAuthenticated: false,
@@ -162,10 +191,14 @@ export const useAuthStore = create<AuthState>()(
               error: 'Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng và thử lại.',
             });
           } else {
-            console.log('🔍 [checkAuth] Auth error, clearing credentials...');
+            if (isDev && isClient) {
+              console.log('🔍 [checkAuth] Auth error, clearing credentials...');
+            }
             // Clear invalid token
-            localStorage.removeItem('access_token');
-            document.cookie = 'access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+            if (isClient) {
+              localStorage.removeItem('access_token');
+              document.cookie = 'access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+            }
             apiClient.setToken(null);
             
             set({
@@ -175,7 +208,10 @@ export const useAuthStore = create<AuthState>()(
               error: null, // Don't show error for auth failures, just redirect
             });
           }
-          console.log('🔍 [checkAuth] Error state set with message:', errorMessage);
+          
+          if (isDev && isClient) {
+            console.log('🔍 [checkAuth] Error state set with message:', errorMessage);
+          }
         }
       },
 
